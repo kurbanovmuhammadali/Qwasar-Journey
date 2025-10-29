@@ -1,0 +1,27 @@
+# create_list_volcano_db.py (not for submission)
+import sqlite3
+
+conn = sqlite3.connect("list_volcano.db")
+cur = conn.cursor()
+
+cur.execute("""
+CREATE TABLE IF NOT EXISTS volcanos (
+    volcano_name TEXT,
+    latitude TEXT,
+    longitude TEXT,
+    country TEXT,
+    elevation_m TEXT
+);
+""")
+
+data = [
+    ("Mount Fuji", "35.3606", "138.7274", "Japan", "3776"),
+    ("Mount Etna", "37.7510", "14.9934", "Italy", "3329"),
+    ("Kilimanjaro", "-3.0758", "37.3533", "Tanzania", "5895"),
+    ("Mauna Loa", "19.475", "-155.608", "USA", "4169"),
+    ("Eyjafjallajökull", "63.633", "-19.633", "Iceland", "1651"),
+]
+
+cur.executemany("INSERT INTO volcanos VALUES (?, ?, ?, ?, ?)", data)
+conn.commit()
+conn.close()
